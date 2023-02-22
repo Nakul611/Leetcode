@@ -1,0 +1,23 @@
+1st Solution:
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        return abs(sqrt(x));
+    }
+};
+
+2nd Solution:
+
+   int mySqrt(int x) {
+        if(x == 1) return 1;
+        int l = 0;
+        int r = x;
+        while(l < r - 1){
+            int mid = l + (r - l) / 2;
+            if(mid == x / mid) return mid;
+            else if(mid > x / mid) r = mid;
+            else l = mid;
+        }
+        return l;
+    }
