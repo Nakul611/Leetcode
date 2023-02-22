@@ -1,0 +1,73 @@
+1st Solution:
+
+class Solution {
+public:
+vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+
+        if (n == 0)
+            return {-1, -1};
+        int l = 0, r = n - 1;
+        while (l < r) {
+            int m = (l + r) / 2;
+            if (nums[m] < target)
+                l = m + 1;
+            else
+                r = m;
+        }
+        if (nums[l] != target)
+            return {-1, -1};
+        int first = l;
+        l = 0;
+        r = n - 1;
+        while (l < r) {
+            int m = (l + r) / 2;
+            if (nums[m] <= target)
+                l = m + 1;
+            else
+                r = m;
+        }
+        int last = nums[l] == target ? l : l - 1;
+        return {first, last};
+    }
+};
+
+2nd Solution:
+
+class Solution {
+public:
+vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> solution;
+        int left = binarySearch(nums, target, true);
+        int right = binarySearch(nums, target, false);
+        solution.push_back(left);
+        solution.push_back(right);
+        return solution;
+    }
+    int binarySearch(vector<int>&nums, int target, bool leftSearch){
+        int start = 0;
+        int end = nums.size()-1;
+        int mid;
+        int i = -1;
+        
+        while(start <= end){
+            mid = (end + start) / 2;
+            if(target < nums[mid]){
+                end = mid - 1;
+            }
+            else if(target > nums[mid]){
+                start = mid+1;
+            }
+            else if(target == nums[mid]){
+                i = mid;
+                if(leftSearch){
+                    end = mid-1;
+                }
+                else{
+                    start = mid+1; 
+                }
+            }
+        }
+        return i;
+    }
+};
