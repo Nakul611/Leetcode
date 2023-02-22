@@ -1,0 +1,36 @@
+1st solution:
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>a, int t) {
+        int c=0,i,j;
+        vector<int>l;
+        for(i=0;i<a.size();i++){
+            for(j=i+1;j<a.size();j++){
+                c=a[i]+a[j];
+                if(c == t){
+                l.push_back(i);
+                l.push_back(j);
+                break;
+            }
+            }
+        }
+        return l;
+    }
+};
+
+2nd solution:
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>a, int t) {
+        map<int,int> m;
+        for(int i=0;i<a.size();i++){
+            if(m.find(t-a[i])!=m.end()){
+                return {i,m[t-a[i]]};
+            }
+            m[a[i]] = i;
+        }
+        return {0,0};
+    }
+};
