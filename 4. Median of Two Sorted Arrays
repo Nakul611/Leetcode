@@ -1,0 +1,27 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& n1, vector<int>& n2) {
+        vector<int> v;
+        v=n1;
+        for(int i=0;i<n2.size();i++){
+            v.push_back(n2[i]);
+        }
+        sort(v.begin(),v.end());
+        int n=v.size();
+        if(n%2!=0){
+            n/=2;
+            double a=v[n];
+            return a;
+        }
+        else{
+            n/=2;
+            int m=0;
+            m=n--;
+            double a=0;
+            a=v[m]+v[n];
+            a/=2;
+            return a;
+        }
+        return 0;
+    }
+};
