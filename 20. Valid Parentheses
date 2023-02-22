@@ -1,0 +1,57 @@
+C++ :
+
+class Solution {
+ private:
+  map<char, char> map {
+      {'(', ')'},{'[', ']'},{'{', '}'},
+  };
+
+  map<char, bool> types {
+      {'(', true},{')', false},{'[', true},{']', false},{'{', true},{'}', false},
+  };
+
+ public:
+  bool isValid(const std::string& str) {
+    if (str.length() % 2 != 0)
+      return false;
+        stack<char> stack;
+
+    for (const char& c : str) {
+      if (types[c]) {
+        stack.push(map[c]);
+        continue;
+      }
+
+      if (stack.empty())
+        return false;
+
+      char top = stack.top();
+      stack.pop();
+
+      if (top != c)
+        return false;
+    }
+
+    return stack.empty();
+  }
+};
+
+Python :
+
+class Solution(object):
+    def isValid(self, s):
+        dct = {'(': ')', '{': '}', '[': ']'}
+        stack = []
+        l = len(s)
+        if l == 0:
+            return True
+        if l % 2 != 0:
+            return False
+        for num, char in enumerate(s):
+            if char in dct:
+                stack.append(dct[char])
+            elif stack and char == stack[-1]:
+                stack.pop(-1)
+            else:
+                return False
+        return not stack
