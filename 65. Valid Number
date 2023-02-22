@@ -1,0 +1,92 @@
+class Solution {
+private:
+    enum EState {
+      EInitial = 0,
+      ERationalBegin,
+      ERational,
+      EFractionalBegin,
+      EFractional,
+      EExponentBegin,
+      EExponentNumberBegin,
+      EExponent
+    };
+    
+private:
+    bool isDigit(char c) { return c >= '0' && c <= '9'; }
+    bool isSign(char c) { return c == '+' || c == '-'; }
+    bool isExponent(char c) { return c == 'e' || c == 'E'; }
+public:
+    bool isNumber(string s) {
+        EState state = EInitial;
+        for (auto c: s) {
+            switch (state) {
+                case EInitial:
+                    if (isSign(c)) {
+                        state = ERationalBegin;
+                    } else if (isDigit(c)) {
+                        state = ERational;
+                    } else if (c == '.') {
+                        state = EFractionalBegin;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case ERationalBegin :
+                    if (isDigit(c)) {
+                        state = ERational;
+                    } else if (c == '.') {
+                        state = EFractionalBegin;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case ERational :
+                    if (isDigit(c)) {
+                        // nothing to do
+                    } else if (c == '.') {
+                        state = EFractional;
+                    } else if (isExponent(c)) {
+                        state = EExponentBegin;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case EFractionalBegin :
+                    if (isDigit(c)) {
+                        state = EFractional; 
+                    } else {
+                        return false;
+                    }
+                    break;
+                case EFractional :
+                    if (isDigit(c)) {
+                        state = EFractional; 
+                    } else if (isExponent(c)) {
+                        state = EExponentBegin;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case EExponentBegin :
+                    if (isSign(c)) {
+                        state = EExponentNumberBegin;
+                    } else if (isDigit(c)) {
+                        state = EExponent;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case EExponentNumberBegin :
+                case EExponent :
+                    if (isDigit(c)) {
+                        state = EExponent;
+                    } else {
+                        return false;
+                    }
+                    break;
+            }
+        }
+        
+        return state == ERational || state == EFractional || state == EExponent;
+    }
+};
